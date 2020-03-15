@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+<title>Todo App</title>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Candal|Chewy&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    body {
+    background: rgb(104, 77, 254);
+    }
+    .todo-container {
+    color: rgb(14, 13, 13);
+    position: absolute;
+    top:50%;
+    left: 50%;
+    padding: 20px;
+    width: 600px;
+    transform: translate(-50%,-50%);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    .note {
+  position: relative;
+  width: 30%;
+  padding: 1em 1.5em;
+  margin: 2em auto;
+  color: #fff;
+  background: #97C02F;
+  overflow: hidden;
+}
+
+.note:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 0 16px 16px 0;
+  border-style: solid;
+  border-color: #fff #fff #658E15 #658E15;
+  background: #658E15;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+  /* Firefox 3.0 damage limitation */
+  display: block; width: 0;
+}
+
+.note.rounded {
+  -moz-border-radius: 5px 0 5px 5px;
+  border-radius: 5px 0 5px 5px;
+}
+
+.note.rounded:before {
+  border-width: 8px;
+  border-color: #fff #fff transparent transparent;
+  -moz-border-radius: 0 0 0 5px;
+  border-radius: 0 0 0 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+    .todo {
+    width: 400px;
+    }
+    .todo-container h2 {
+    padding: 10px;
+    font-family: 'Candal', sans-serif;
+    font-size: 2em;
+    }
+    .todo-header input {
+    width: 92%;
+    border: none;
+    border-radius: 5px;
+    height: 20px;
+    font-family: 'Candal', sans-serif;
+    }
+    .todo-header button {
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 5px;
+    font-family: 'Candal', sans-serif;
+    background-color: rgb(51, 212, 100);
+    }
+    .todo-container ul {
+    list-style: none;
+    }
+    .todo-list-item {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Candal', sans-serif;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    }
+    .todo-list-item form {
+      flex-grow: 2;
+    margin-right: 20px;
+    border: 5px;
+    border-radius: 5px;
+
+    }
+    .todo-list-item input {
+    flex-grow: 2;
+    margin-right: 20px;
+    border: none;
+    border-radius: 5px;
+    font-family: 'Candal', sans-serif;
+    }
+    .todo-list-item button {
+    color: #fff;
+    border: none;
+   
+    cursor: pointer;
+    font-family: 'Candal', sans-serif;
+    background-color: rgba(63, 243, 8, 0.849);
+    }
+
+    
+    .todo-list-item .cancel {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    font-family: 'Candal', sans-serif;
+    background-color: rgb(223, 43, 43);
+    margin-left: 5px;
+    }
+    .todo-list-item .checked {
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-decoration: line-through;
+}
+    .todo-list-item div {
+    flex-grow: 2;
+    }
+    .todo-list-item .edit {
+    color : rgb(143, 233, 58);
+    margin-right: 10px;
+    cursor:pointer;
+    text-decoration: none;
+    }
+    .todo-list-item .remove {
+    color : rgb(243, 96, 96);
+    margin-right: 5px;
+    cursor:pointer;
+    text-decoration: none;
+    }
+
+.strikethrough:checked + label {
+  text-decoration:line-through;
+  color: rgb(23, 230, 50);
+}
+.strikethrough11:label {
+  text-decoration:line-through
+}
+
+
+</style>
+</head>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<body>
+<div class="todo-container">
+<h2>Notes Making</h2>
+<div class="todo">
+    <row>
+        
+        <form action="/dashboard/newtodo" method="POST" class="todo-header">
+            <input type="text" name="item" placeholder="Make Important Notes?">
+            <button type="submit" ><span class="fas fa-plus"></span></button>
+            </form>
+    </row>
+
+
+<ul class="todo-list">
+    
+    <% for(var i = 0; i < todoList.notes.length; i++) { %>
+<li class="todo-list-item">
+<div class="todo-list-item-name">
+
+  <label  >  <%= (i+1) + ". " + todoList.notes[i].value %></label><br>
+
+</div>
+            
+</li>
+<% } %>
+</ul>
+</div>
+</div>
+
+
+<a href="/find" class="edit">
+  <span class="fas fa-edit"></span>
+  </a>
+</body>
+
+
+    </html>
