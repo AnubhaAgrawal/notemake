@@ -167,27 +167,37 @@ integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7
     </row>
 
 
-<ul class="todo-list">
-    
-    <% for(var i = 0; i < todoList.notes.length; i++) { %>
-<li class="todo-list-item" >
-<div class="todo-list-item-name" >
-
-  <label  >  <%= (i+1) + ". " + todoList.notes[i].value %></label><br>
-
-
-  <a href="/edit/<%= todoList.notes[i]._id %>" class="edit">
-    <span class="fas fa-edit"></span>
-    </a>
-  <a href="/destroy/<%= todoList.notes[i]._id %>" class="remove">
-  <span class="fas fa-times"></span>
-  </a>
-  
-     
-</div>       
-</li>
-<% } %>
-</ul>
+    <ul class="todo-list">
+      <% for(var i = 0; i < todoList.notes.length; i++) { %>
+       
+      <% if (todoList.notes[i]._id.toString()  ==  Todoid.toString()) { %>
+      <li class="todo-list-item">
+      <form action="/edit/<%= todoList.notes[i]._id %>" method="POST">
+      <input type="text" value="<%= todoList.notes[i].value %>" name="items">
+      
+      
+      
+      <button type="edit">Confirm</button>
+      <a href="/dashboard" class="cancel"> <span class="fas fa-times"></span></a>
+      </form>
+      </li>
+      <% } else { %>
+          <li class="todo-list-item">
+              <div class="todo-list-item-name">
+              
+                  <%= (i+1) + ". " + todoList.notes[i].value %> 
+              </div>
+              <a href="/edit/<%= todoList.notes[i]._id %>" class="edit">
+              <span class="fas fa-edit"></span>
+              </a>
+              <a href="/destroy/<%= todoList.notes[i]._id %>" class="remove">
+              <span class="fas fa-times"></span>
+              </a>
+                          
+              </li>
+      <% } %>
+      <% } %>
+      </ul>
 </div>
 </div>
 
